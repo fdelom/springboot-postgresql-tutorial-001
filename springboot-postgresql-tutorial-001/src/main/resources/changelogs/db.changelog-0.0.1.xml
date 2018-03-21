@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	<changeSet author="fdelom" id="1">
+		<createTable tableName="USERS" schemaName="public">
+			<column name="id" type="SERIAL" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="pk_users_id" unique="true" nullable="false" />
+			</column>
+			<column name="firstname" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="lastname" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>										
+			<column name="password" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>			
+		</createTable>
+	</changeSet>         
+	<changeSet author="fdelom" id="2">
+		<createTable tableName="TODO" schemaName="public">
+			<column name="id" type="SERIAL" autoIncrement="true">
+				<constraints primaryKey="true" primaryKeyName="pk_tasks_id" unique="true" nullable="false"/>
+			</column>
+			<column name="user_id" type="INT">
+				<constraints nullable="true" foreignKeyName="fk_user_id" references="users(id)" deleteCascade="false"/>
+			</column>
+			<column name="content" type="JSONB">
+				<constraints nullable="true" />
+			</column>			
+		</createTable>
+	</changeSet>
+	<changeSet author="fdelom" id="3">
+		<insert tableName="USERS">
+			<column name="firstname" value="John" />
+			<column name="lastname" value="Doe" />
+			<column name="password" value="secret" />
+		</insert>
+		<insert tableName="USERS">
+			<column name="firstname" value="Jane" />
+			<column name="lastname" value="Doe" />
+			<column name="password" value="password" />
+		</insert>
+	</changeSet>
+	<changeSet author="fdelom" id="4">
+		<insert tableName="TODO">
+			<column name="user_id" value="1" />
+			<column name="content" value="{ &quot;todoDetails&quot;: { &quot;description&quot;: &quot;todo1&quot;, &quot;tags&quot;: [ &quot;tag1&quot;, &quot;tag2&quot; ] } }" />
+		</insert>
+		<insert tableName="TODO">
+			<column name="user_id" value="2" />
+			<column name="content" value="{ &quot;todoDetails&quot;: { &quot;description&quot;: &quot;todo2&quot;, &quot;tags&quot;: [ &quot;tag1&quot;, &quot;tag3&quot; ] } }" />
+		</insert>
+	</changeSet>
+</databaseChangeLog>
