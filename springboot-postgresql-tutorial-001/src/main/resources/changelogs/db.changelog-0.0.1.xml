@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <databaseChangeLog 
-	xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 	<changeSet author="fdelom" id="1">
 		<createTable tableName="USERS" schemaName="public">
 			<column name="id" type="SERIAL" autoIncrement="true">
@@ -33,7 +34,7 @@
 			</column>			
 		</createTable>
 	</changeSet>
-	<changeSet author="fdelom" id="3">
+	<!-- <changeSet author="fdelom" id="3">
 		<insert tableName="USERS">
 			<column name="firstname" value="John" />
 			<column name="lastname" value="Doe" />
@@ -54,5 +55,23 @@
 			<column name="user_id" value="2" />
 			<column name="content" value="{ &quot;todoDetails&quot;: { &quot;description&quot;: &quot;todo2&quot;, &quot;tags&quot;: [ &quot;tag1&quot;, &quot;tag3&quot; ] } }" />
 		</insert>
+	</changeSet>-->
+	<!-- Hibernate Envers Audit -->
+	<changeSet author="fdelom" id="5">
+		<addColumn tableName="USERS" schemaName="public">
+			<column name="created_by" type="VARCHAR(128)"/>
+			<column name="created_date" type="TIMESTAMP"/>
+			<column name="modified_by" type="VARCHAR(128)"/>
+			<column name="modified_date" type="TIMESTAMP"/>
+		</addColumn>
+		<addColumn tableName="TODO" schemaName="public">
+			<column name="created_by" type="VARCHAR(128)"/>
+			<column name="created_date" type="TIMESTAMP"/>
+			<column name="modified_by" type="VARCHAR(128)"/>
+			<column name="modified_date" type="TIMESTAMP"/>
+		</addColumn>
+	</changeSet>
+	<changeSet author="fdelom" id="6">
+		<sqlFile endDelimiter="#" path="sql/Envers-Histo-Tables.sql"/>
 	</changeSet>
 </databaseChangeLog>

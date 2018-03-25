@@ -5,12 +5,16 @@ spring:
     
 # Jpa
   jpa:
+    database: postgresql
     hibernate:
       ddl-auto: none
+      naming-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+      org.hibernate.envers.audit_table_suffix: _histo
+      org.hibernate.envers.store_data_at_delete: true
 
 # Datasource
   datasource:

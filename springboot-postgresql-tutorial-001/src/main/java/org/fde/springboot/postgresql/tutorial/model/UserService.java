@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.fde.springboot.postgresql.tutorial.exception.UserNotFoundException;
+import org.fde.springboot.postgresql.tutorial.model.audit.AuditHistory;
+import org.fde.springboot.postgresql.tutorial.repository.UserAuditHistoRepository;
 import org.fde.springboot.postgresql.tutorial.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ import com.google.common.base.Strings;
 public class UserService {
 	@Autowired
 	private UserRepository repository;
+
+	@Autowired
+	private UserAuditHistoRepository repositoryHisto;
 
 	public List<User> findAll() {
 		return repository.findAll().stream().map(
@@ -63,5 +68,9 @@ public class UserService {
 		} else {
 			return user;
 		}
+	}
+
+	public List<AuditHistory<User>> findHistoryById(Long userId) {
+		return repositoryHisto.listAuditRevisions(userId);
 	}
 }
