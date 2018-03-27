@@ -12,7 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.fde.springboot.postgresql.tutorial.model.extension.TodoDetailsJsonb;
+import org.fde.springboot.postgresql.tutorial.model.extension.JsonbParameterizedType;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.envers.Audited;
@@ -36,8 +37,9 @@ import lombok.Setter;
 @Table(name = "TODO")
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = { "id" })
-@TypeDef(name = "TodoDetailsJsonb", typeClass = TodoDetailsJsonb.class)
+@EqualsAndHashCode(exclude = { "id", "createdBy", "createdAt", "lastModifiedBy", "lastModifiedAt" })
+@TypeDef(name = "TodoDetailsJsonb", typeClass = JsonbParameterizedType.class, parameters = {
+		@Parameter(name = JsonbParameterizedType.CLASS, value = "org.fde.springboot.postgresql.tutorial.model.TodoDetails") })
 public class Todo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

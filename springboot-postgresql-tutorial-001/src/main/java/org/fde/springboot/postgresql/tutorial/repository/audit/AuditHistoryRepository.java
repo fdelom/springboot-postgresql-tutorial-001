@@ -1,5 +1,6 @@
 package org.fde.springboot.postgresql.tutorial.repository.audit;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,9 @@ public abstract class AuditHistoryRepository<T> {
 
 	protected abstract Class<T> getEntityType();
 
-	public abstract List<AuditHistory<T>> listAuditRevisions(Long Id);
+	public abstract List<AuditHistory<T>> findAuditRevisionsById(Long Id);
+
+	public abstract List<AuditHistory<T>> findAuditRevisionsByIdByLocalDateTime(Long Id, LocalDateTime timestamp);
 
 	protected List<AuditHistoResult<T>> getConvertedAuditResultsList(AuditQuery auditQuery) {
 		List<?> results = auditQuery.getResultList();

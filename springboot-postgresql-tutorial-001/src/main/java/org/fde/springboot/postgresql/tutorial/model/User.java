@@ -31,7 +31,7 @@ import lombok.Setter;
 @Table(name = "USERS")
 @Getter
 @Setter
-@EqualsAndHashCode(exclude = { "id" })
+@EqualsAndHashCode(exclude = { "id", "createdBy", "createdAt", "lastModifiedBy", "lastModifiedAt" })
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

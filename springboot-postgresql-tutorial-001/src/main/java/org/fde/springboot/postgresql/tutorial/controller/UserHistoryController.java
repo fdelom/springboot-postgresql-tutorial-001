@@ -31,7 +31,7 @@ public class UserHistoryController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.FOUND)
-	public ResponseEntity<List<AuditHistory<User>>> findHistoryById(@PathVariable Long id) {
-		return ResponseEntity.status(HttpStatus.FOUND).body(userService.findHistoryById(id));
+	public ResponseEntity<List<AuditHistory<User>>> findAuditRevisionsById(@PathVariable Long id) {
+		return ResponseEntity.status(HttpStatus.FOUND).body(userService.findAuditRevisionsById(id));
 	}
 }

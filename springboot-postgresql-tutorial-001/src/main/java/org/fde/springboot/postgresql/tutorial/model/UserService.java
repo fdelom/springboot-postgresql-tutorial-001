@@ -70,7 +70,7 @@ public class UserService {
 		}
 	}
 
-	public List<AuditHistory<User>> findHistoryById(Long userId) {
-		return repositoryHisto.listAuditRevisions(userId);
+	public List<AuditHistory<User>> findAuditRevisionsById(Long userId) {
+		return repositoryHisto.findAuditRevisionsById(userId);
 	}
 }
