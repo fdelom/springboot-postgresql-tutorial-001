@@ -28,6 +28,7 @@ import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.SerializationException;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
+import org.postgresql.util.PGobject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,7 +41,7 @@ public class JsonbParameterizedType implements ParameterizedType, UserType {
 
 	private static final ClassLoaderService classLoaderService = new ClassLoaderServiceImpl();
 
-	public static final String JSONB_TYPE = "jsonb";
+	public static final String JSONB = "jsonb";
 	public static final String CLASS = "CLASS";
 
 	private Class<?> jsonClassType;
@@ -73,13 +74,18 @@ public class JsonbParameterizedType implements ParameterizedType, UserType {
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
 			throws HibernateException, SQLException {
-		if (value == null) {
-			st.setNull(index, Types.OTHER);
-			return;
-		}
+		Gson gson = new GsonBuilder().create();
+
+		PGobject pgo = new PGobject();
+		pgo.setType(JSONB);
+
 		try {
-			Gson gson = new GsonBuilder().create();
-			st.setObject(index, gson.toJson(value), Types.OTHER);
+			if (value == null) {
+				pgo.setValue(null);
+			} else {
+				pgo.setValue(gson.toJson(value));
+			}
+			st.setObject(index, pgo);
 		} catch (final Exception ex) {
 			throw new RuntimeException("Failed to convert Invoice to String: " + ex.getMessage(), ex);
 		}

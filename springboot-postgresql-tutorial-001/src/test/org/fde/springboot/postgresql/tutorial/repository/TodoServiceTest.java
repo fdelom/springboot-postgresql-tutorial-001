@@ -144,6 +144,8 @@ public class TodoServiceTest {
 	@Test
 	public void should_find_one_elm_by_content_tags() throws TodoNotFoundException {
 		List<Todo> result = todoService.findByContentTagsIn(new ArrayList<String>(Arrays.asList("tag1", "tag2")));
+		// List<Todo> result = repository.findByContentTagsIn(new
+		// ArrayList<String>(Arrays.asList("tag1", "tag2")));
 		User userJohn = new User(1L, "John", "Doe", "test");
 		User userJane = new User(2L, "Jane", "Doe", "test");
 

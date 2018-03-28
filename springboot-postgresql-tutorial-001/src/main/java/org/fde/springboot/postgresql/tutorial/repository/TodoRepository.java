@@ -15,4 +15,12 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
 
 	@Query(value = "SELECT T.* FROM TODO T WHERE T.content ->>'description' = :description", nativeQuery = true)
 	List<Todo> findByContentDescription(@Param(value = "description") String description);
+
+	/*
+	 * @Query(value =
+	 * "SELECT T.* FROM TODO T WHERE T.content->>'tags'\\:\\:text IN :tagsList",
+	 * nativeQuery = true) List<Todo> findByContentTagsIn(@Param(value =
+	 * "tagsList") List<String> tagsList);
+	 */
+
 }

@@ -29,6 +29,12 @@ public class TodoService {
 				.collect(Collectors.toList());
 	}
 
+	public List<Todo> findByContentDescription(String sDescription) {
+		return repository.findByContentDescription(sDescription).stream()
+				.map(entity -> new Todo(entity.getId(), entity.getUser(), entity.getContent()))
+				.collect(Collectors.toList());
+	}
+
 	@Transactional
 	public Todo create(Todo newTodo) {
 		return repository.saveAndFlush(newTodo);
